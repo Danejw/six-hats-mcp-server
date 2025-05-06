@@ -96,5 +96,12 @@ Guidelines:
 - After each hat's response, summarize key points.
 - Determine the next hat based on gaps or needs.
 - Conclude with an actionable summary and recommended next steps.
-"""
+""",
+    tools = [
+        white_hat_agent.as_tool( tool_name="white", tool_description="Objective facts & data"), 
+        red_hat_agent.as_tool( tool_name="red", tool_description="Emotions & intuitions"), 
+        black_hat_agent.as_tool( tool_name="black", tool_description="Risks & critiques"), 
+        yellow_hat_agent.as_tool( tool_name="yellow", tool_description="Benefits & optimism"), 
+        green_hat_agent.as_tool( tool_name="green", tool_description="Creativity & ideas")
+    ]
 ) 

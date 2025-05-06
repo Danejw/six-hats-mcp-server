@@ -1,9 +1,9 @@
 import pytest
 from fastapi.testclient import TestClient
 import app.hats as hats
-from app.main import mcp_app
+from app.main import app
 
-client = TestClient(mcp_app)
+client = TestClient(app)
 
 @pytest.fixture(autouse=True)
 def stub_agent_runs(monkeypatch):

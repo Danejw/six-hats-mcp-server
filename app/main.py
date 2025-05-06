@@ -1,6 +1,8 @@
 from fastapi import APIRouter, FastAPI
 from fastmcp import FastMCP
+from agents import Runner
 import os
+
 from dotenv import load_dotenv
 from .hats import (
     white_hat_agent,
@@ -21,42 +23,47 @@ if not os.getenv("OPENAI_API_KEY"):
 # Create FastMCP instance
 mcp = FastMCP(name="SixHatsMCP")
 
-@mcp.tool(name="white", description="Objective facts & data")
-async def white(query: str) -> str:
-    return white_hat_agent.run(query)
-
-@mcp.tool(name="red", description="Emotions & intuitions")
-async def red(query: str) -> str:
-    return red_hat_agent.run(query)
-
-@mcp.tool(name="black", description="Risks & critiques")
-async def black(query: str) -> str:
-    return black_hat_agent.run(query)
-
-@mcp.tool(name="yellow", description="Benefits & optimism")
-async def yellow(query: str) -> str:
-    return yellow_hat_agent.run(query)
-
-@mcp.tool(name="green", description="Creativity & ideas")
-async def green(query: str) -> str:
-    return green_hat_agent.run(query)
-
-@mcp.tool(name="blue", description="Manager & orchestration")
-async def blue(prompt: str) -> str:
-    return blue_hat_agent.run(
-        prompt,
-        tools=["white", "red", "black", "yellow", "green"]
-    )
-
 # FastAPI app - this is the app that Uvicorn will run
-mcp_app = FastAPI(title="Six Hats MCP API")
+app = FastAPI(title="Six Hats MCP API")
 
 router = APIRouter()
 
 # Include the MCP router in the FastAPI app
-mcp_app.include_router(router, prefix="/6hats", tags=["6hats"])
+app.include_router(router, prefix="/6hats", tags=["6hats"])
 
-@mcp_app.get("/health")
+
+@mcp.tool(name="white", description="Objective facts & data")
+@app.post("/white")
+async def white(query: str) -> str:
+    return Runner.run(white_hat_agent, query)
+
+@mcp.tool(name="red", description="Emotions & intuitions")
+@app.post("/red")
+async def red(query: str) -> str:
+    return Runner.run(red_hat_agent, query)
+
+@mcp.tool(name="black", description="Risks & critiques")
+@app.post("/black")
+async def black(query: str) -> str:
+    return Runner.run(black_hat_agent, query)
+
+@mcp.tool(name="yellow", description="Benefits & optimism")
+@app.post("/yellow")
+async def yellow(query: str) -> str:
+    return Runner.run(yellow_hat_agent, query)
+
+@mcp.tool(name="green", description="Creativity & ideas")
+@app.post("/green")
+async def green(query: str) -> str:
+    return Runner.run(green_hat_agent, query)
+
+@mcp.tool(name="blue", description="Manager & orchestration")
+@app.post("/blue")
+async def blue(prompt: str) -> str:
+    return Runner.run(blue_hat_agent, prompt)
+
+
+@app.get("/health")
 async def health():
     return {"status": "ok"}
 
