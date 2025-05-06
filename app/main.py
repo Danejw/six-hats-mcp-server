@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
 from fastmcp import FastMCP
 import os
 from dotenv import load_dotenv
@@ -51,8 +51,10 @@ async def blue(prompt: str) -> str:
 # FastAPI app - this is the app that Uvicorn will run
 mcp_app = FastAPI(title="Six Hats MCP API")
 
+router = APIRouter()
+
 # Include the MCP router in the FastAPI app
-mcp_app.include_router(prefix="/6hats", tags=["6hats"])
+mcp_app.include_router(router, prefix="/6hats", tags=["6hats"])
 
 @mcp_app.get("/health")
 async def health():
