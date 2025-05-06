@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastmcp import FastMCP
+import os
+from dotenv import load_dotenv
 from .hats import (
     white_hat_agent,
     red_hat_agent,
@@ -8,6 +10,13 @@ from .hats import (
     green_hat_agent,
     blue_hat_agent
 )
+
+# Load environment variables
+load_dotenv()
+
+# Ensure OpenAI API key is set
+if not os.getenv("OPENAI_API_KEY"):
+    print("Warning: OPENAI_API_KEY environment variable not set")
 
 mcp = FastMCP(name="SixHatsMCP")
 
@@ -41,7 +50,7 @@ async def blue(prompt: str) -> str:
 # FastAPI app
 mcp_app = FastAPI()
 
-mcp_app.include_router(mcp.router)
+mcp_app.include_router()
 
 @mcp_app.get("/health")
 async def health():

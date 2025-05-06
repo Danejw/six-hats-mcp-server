@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 .env
 poetry.lock
+.venv/
+*.egg-info/
+dist/

@@ -11,6 +11,6 @@ uvicorn = {extras = ["standard"], version = "^0.23.0"}
 fastmcp = {git = "https://github.com/jlowin/fastmcp.git", rev = "main"}
 openai-agents = "^0.1.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 pytest = "^7.0"
 pytest-cov = "^4.0"

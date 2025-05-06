@@ -1,4 +1,15 @@
+import os
 from agents import Agent
+import openai
+
+# Get OpenAI API key from environment variable
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    print("Warning: OPENAI_API_KEY not set in environment variables.")
+    print("Agent functionality will be limited or unavailable.")
+
+# Set OpenAI API key
+openai.api_key = api_key
 
 # Detailed Six Hats agent definitions with handoff descriptions
 white_hat_agent = Agent(
