@@ -1,0 +1,3 @@
+"""
+Six Hats MCP tests.
+"""
