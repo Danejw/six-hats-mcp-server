@@ -18,6 +18,7 @@ load_dotenv()
 if not os.getenv("OPENAI_API_KEY"):
     print("Warning: OPENAI_API_KEY environment variable not set")
 
+# Create FastMCP instance
 mcp = FastMCP(name="SixHatsMCP")
 
 @mcp.tool(name="white", description="Objective facts & data")
@@ -47,11 +48,13 @@ async def blue(prompt: str) -> str:
         tools=["white", "red", "black", "yellow", "green"]
     )
 
-# FastAPI app
-mcp_app = FastAPI()
+# FastAPI app - this is the app that Uvicorn will run
+mcp_app = FastAPI(title="Six Hats MCP API")
 
-mcp_app.include_router()
+# Include the MCP router in the FastAPI app
+mcp_app.include_router(prefix="/6hats", tags=["6hats"])
 
 @mcp_app.get("/health")
 async def health():
-    return {"status": "ok"} 
+    return {"status": "ok"}
+
