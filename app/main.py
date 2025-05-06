@@ -35,32 +35,39 @@ app.include_router(router, prefix="/6hats", tags=["6hats"])
 @mcp.tool(name="white", description="Objective facts & data")
 @app.post("/white")
 async def white(query: str) -> str:
-    return Runner.run(white_hat_agent, query)
+    response = await Runner.run(white_hat_agent, query)
+    return response.final_output
+
 
 @mcp.tool(name="red", description="Emotions & intuitions")
 @app.post("/red")
 async def red(query: str) -> str:
-    return Runner.run(red_hat_agent, query)
+    response = await Runner.run(red_hat_agent, query)
+    return response.final_output
 
 @mcp.tool(name="black", description="Risks & critiques")
 @app.post("/black")
 async def black(query: str) -> str:
-    return Runner.run(black_hat_agent, query)
+    response = await Runner.run(black_hat_agent, query)
+    return response.final_output
 
 @mcp.tool(name="yellow", description="Benefits & optimism")
 @app.post("/yellow")
 async def yellow(query: str) -> str:
-    return Runner.run(yellow_hat_agent, query)
+    response = await Runner.run(yellow_hat_agent, query)
+    return response.final_output
 
 @mcp.tool(name="green", description="Creativity & ideas")
 @app.post("/green")
 async def green(query: str) -> str:
-    return Runner.run(green_hat_agent, query)
+    response = await Runner.run(green_hat_agent, query)
+    return response.final_output
 
 @mcp.tool(name="blue", description="Manager & orchestration")
 @app.post("/blue")
 async def blue(prompt: str) -> str:
-    return Runner.run(blue_hat_agent, prompt)
+    response = await Runner.run(blue_hat_agent, prompt)
+    return response.final_output
 
 
 @app.get("/health")
